@@ -1,0 +1,50 @@
+html
+    script.
+        const formUrl = "#{formUrl}";
+        let staticPath = "#{config['static_path']}";
+    include ../includes/head.pug
+    body.bg-background-color.text-color
+        div.app-content-limiter.mx-auto.px-3.justify-center.flex
+            div.flex.flex-col.justify-center.w-full(style="max-width:500px;margin-top:5rem;")
+                h1#login-title Log in
+                p#login-error-msg.text-red
+                form#login-form.flex.flex-col
+                    label.text-lg.text-color(for='username-field' style="") Username
+                    input#username-field.login-form-field.remove-default.bg-secondary-color.rounded-lg.text-xl.text-color(
+                        type='text'
+                        name='username'
+                        style="padding: 10px;margin-bottom:1.5rem"
+                        spellcheck="false"
+                        autocomplete="username"
+                        required
+                        )
+
+                    label.text-lg.text-color(for='password-field') Password
+                    div.bg-secondary-color.rounded-lg.flex(
+                        style="position:relative;margin-bottom:1.5rem; overflow:hidden;"
+                        )
+                        input#password-field.login-form-field.remove-default.rounded-lg.text-xl.text-color.w-full(
+                            type='password'
+                            name='password'
+                            style="padding: 10px;background-color:transparent;"
+                            spellcheck="false"
+                            autocomplete="current-password"
+                            required
+                            )
+                        div.p-2.flex.items-center(style="max-height:32px;")
+                            button#password-visibility-button.password-visibility.bg-background-color.rounded-lg(
+                                type="button"
+                                style="border-width:2px; border-color:#fff; border-style:solid;cursor: pointer;" +
+                                "padding: 6px;"
+                                )
+                                img#password-visibility-icon(src=`${config['static_path']}/icons/eye-regular.svg` height="20" width="20")
+
+                    div.flex.justify-center.text-lg.items-center(style="margin-bottom:1.5rem;")
+                        label(for='persistent-field' style='margin-right:0.25rem') Keep me logged in
+                        input#persistent-field.non-default(type='checkbox' name='persistent' style='height:19px;width:19px;')
+
+                    button#login-form-submit.remove-default.bg-accent-color.rounded-lg.text-xl.text-color.drop-shadow-accent-xl(type='submit' value='Login' style='height:48px; cursor: pointer;')
+                        | Log in
+    script
+        include loginForm.js
+

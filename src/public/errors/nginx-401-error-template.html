@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html style="height: 100%;">
+<head>
+    <link rel="stylesheet" href="/filehive-static/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,900" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&amp;display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--# if expr="$status = 502" -->
+    <meta http-equiv="refresh" content="2">
+    <!--# endif -->
+    <title><!--# echo var="status_title" default="Something goes wrong" --></title>
+</head>
+<body class="montserrat bg-background-color text-color flex items-center justify-center h-full">
+<div class="flex flex-col items-center">
+    <div class="error-title">Oops!</div>
+    <div class="second-error-title">
+        <!--# echo var="status" default="" --> - <!--# echo var="status_title" default="Something goes wrong" -->
+    </div>
+    <p class="error-message"><!--# echo var="status_message" default="For more information check the status code on the web" --></p>
+    <button class="back-home-button filter-hover" onclick="redirectToTarget('/login',true);" autofocus>LOGIN</button>
+</div>
+</body>
+<script>
+    function redirectToTarget(target, noHistory) {
+        if (noHistory) {
+            window.location.replace(target);
+        } else {
+            window.location = target;
+        }
+    }
+</script>
+</html>

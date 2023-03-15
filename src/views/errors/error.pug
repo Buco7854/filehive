@@ -1,0 +1,20 @@
+doctype html
+html(style="height: 100%;")
+    include ../includes/head.pug
+    body.montserrat.bg-background-color.text-color.flex.items-center.justify-center.h-full
+        div.flex.flex-col.items-center
+            .error-title
+                | Oops!
+            .second-error-title
+                | #{[status, title].join(' - ')}
+            p.error-message #{message}
+            button.back-home-button.filter-hover(onclick=`redirectToTarget('${buttonHref}',${noHistory});` autofocus) #{buttonMessage}
+    script.
+        function redirectToTarget(target, noHistory){
+            if (noHistory){
+                window.location.replace(target);
+            }
+            else{
+                window.location = target;
+            }
+        }

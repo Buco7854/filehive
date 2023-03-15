@@ -1,0 +1,12 @@
+[Unit]
+Description=FileHive
+After=network.target
+
+[Service]
+User=www-data
+WorkingDirectory=/path/to/filehive/
+ExecStart=/usr/bin/node src/app.js
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

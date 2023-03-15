@@ -1,0 +1,140 @@
+# DO NOT PASS THE KEY IF IT IS OPTIONAL AND YOU DO NOT WISH TO USE IT
+
+# The protocol to use, http or https. This is a required field for security purposes.
+# If you are using a proxy with an existing https configuration, you do not need to specify https here.
+# Otherwise, use https, or your credentials may be vulnerable.
+# If you set up https, you must provide the private_key and certificate keys (end of file).
+# Type: string
+# Required.
+protocol:
+
+# The port on which filehive will listen.
+# Type: number
+# Required.
+port:
+
+# The root directory to serve.
+# Type: string
+# Required.
+dir:
+
+# autoindex  when the route is not in the configuration file.
+# Type: Boolean
+# Required.
+autoindex:
+
+# upload when the route is not in the configuration file.
+# Type: Boolean
+# Required.
+upload:
+
+# show_hidden when the route is not in the configuration file. Pass true if the user is allowed to view hidden files and directories
+# Type: Boolean
+# Required.
+# show_hidden:
+
+
+# From here on everything is optional.
+
+# User configuration, the username is the key.
+# Type: object
+# Optional. Default to an empty object.
+# users:
+#  a_user:
+#    Type string
+#    Required.
+#    password:
+
+# The configuration for a route when an unauthenticated user accesses it.
+# Please note that trailing slash or not are not needed but in the case you want to pass a wildcard then there must be a trailing slash in front.
+# Type: array of objects
+# Optional. Default to an empty array.
+# routes_anonymous_access:
+#  Same as the previous ones
+#  - path:
+#    autoindex:
+#    upload:
+#    show_hidden:
+
+# The configuration for a route. If user and path match the entry, it will be used.
+# If no match is found, fallbacks to the routes_anonymous_access setting.
+# If no match is found again, then use general settings.
+# The routes are sorted from the longest to the shorter and will stop at the first match.
+# Optional. Default to an empty list.
+# routes_user_access:
+#  Same as the previous one
+#  - path:
+#    autoindex:
+#    upload:
+#    show_hidden:
+#    user:
+
+# The name of the store where the session tokens and rate-limits are stored.
+# If redis is available, better use it for persistence between file restarts.
+# Type: string.
+# Optional. Default to "memory".
+# store:
+
+# The prefix in front of the key in the stores.
+# Type: string.
+# Optional. Default to an empty string.
+# store-prefix:
+
+# the redis store
+# redis:
+#  everything in there is optional
+#  host: Host if different from localhost.
+#  port: Port if different from default.
+#  password: Password if any.
+#  username: User if any.
+#  The redis database used (by default, there are 16 databases, and if nothing is specified, it connects to db 0).
+#  database:
+
+# The address on which your app will listen to requests.
+# If you want your app to be accessible from outside your computer, use "0.0.0.0".
+# Type: string
+# Optional. Default to "127.0.0.1".
+# listen-address:
+
+# If your app is behind one or multiple proxies such as nginx, set their IP here (prepended by a hyphen).
+# Type array of string
+# Optional. Default to an empty array.
+# proxies:
+#  - 127.0.0.1
+
+# The 'virtual' directory for filehive css/js ... files (you may want to handle it with apache/nginx)
+# It serves file under ./src/public
+# It is in no way related to the directory that filehive will serve (dir)
+# make sure the 'name' does not conflict with a direct subdirectory of the directory to serve
+# By default all names like this are filehive-the-route-purpose
+# e.g. if you have a 'test' subdirectory directly after (dir) just don't name it 'test'
+# static_path:
+
+# The path for the upload route, same instruction as in static_path
+# upload_path:
+
+# The path for the delete route, same instruction as in static_path
+# delete_path:
+
+# The folder creation route, same instruction as in static_path
+# create_folder_path:
+
+# An OCTAL integer representing the permissions in linux.
+# e.g. 0o770, not 770, permission wouldn't be the same, and you would have bad surprises.
+# Default to 0o775
+# folder_creation_mode:
+
+# The key of the cookie used for user sessions
+# cookie_key:
+
+# The date format of the country provided for the autoindex dates. default : en-US
+# date_format:
+
+# Your certificate private key file
+# private_key:
+
+# Your certificate file
+# certificate:
+
+# Max upload file size in bytes
+# max_upload_file_size: 0
