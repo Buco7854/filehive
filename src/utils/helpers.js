@@ -5,7 +5,7 @@ function toHumanSize(size){
         return "O KB"
     }
 
-    const i = parseInt(Math.floor(Math.log(size) / Math.log(1024)))
+    const i = Math.floor(Math.log(size) / Math.log(1024))
 
     if (i === 0) {
         return size + " " + sizes[i]

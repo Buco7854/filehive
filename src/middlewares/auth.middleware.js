@@ -8,6 +8,7 @@ async function auth(req, res, next){
         }
 
         const sessionToken = req.cookies[req.app.locals.config['cookie_key']]
+
         if (!sessionToken) {
             return next();
         }
@@ -31,7 +32,7 @@ function loginLimiter(app) {
         standardHeaders: true,
         legacyHeaders: true,
         skipSuccessfulRequests : true,
-        keyGenerator: (req, res) => req.ip, // could also do req.body['username'], your choice (intentional spamming may block your account).
+        keyGenerator: (req, res) => req.ip, // if you wish to edit you could also do req.body['username'], your choice (intentional spamming may block your account).
         handler: (req, res, next, options) =>
         {
             res.status(options.statusCode).json({"detail":options.message})

@@ -41,7 +41,7 @@ function errorHandler (err, req, res, next) {
             title: httpStatus[status]?.name || "",
             message: message || httpStatus[status]?.message || "",
             buttonMessage: status === 401 ? "Login" : "BACK TO HOME",
-            buttonHref: status === 401 ? "/login" : "/",
+            buttonHref: status === 401 ? req.app.locals.config["login_path"]: "/",
             noHistory : status === 401,
         })
     }

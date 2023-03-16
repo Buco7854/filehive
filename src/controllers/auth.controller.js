@@ -25,11 +25,13 @@ async function loginForm(req, res, next){
         let maxAge = undefined
 
         if (persistent){
-            maxAge = 30 * 24 * 60 * 60;
+            maxAge = 30 * 24 * 60 * 60 * 1000;
         }
-        await req.app.locals.store.set("sessions:" + sessionToken, {"username": username}, maxAge)
-
-        res.cookie(req.app.locals.config['cookie_key'], sessionToken, { maxAge: maxAge });
+        await req.app.locals.store.set("sessions:" + sessionToken,
+            {"username": username, "is_session":!persistent},
+            maxAge
+        )
+        res.cookie(req.app.locals.config['cookie_key'], sessionToken, { maxAge: maxAge, overwrite:true});
         res.status(200).json({"detail":"Ok"});
     } catch (err) {
         next(err);
