@@ -140,8 +140,8 @@ Type: object
 Example:
 ```yaml
 users:
-    a_user:
-        password: "password"
+  a_user:
+    password: "password"
 ```
 
 
@@ -156,10 +156,10 @@ Type: array of objects
 Example:
 ```yaml
 routes_anonymous_access:
-    -   path: "/public/*"
-        autoindex: true
-        upload: false
-        show_hidden: false
+  - path: "/public/*"
+    autoindex: true
+    upload: false
+    show_hidden: false
 ```
 
 
@@ -176,11 +176,11 @@ Example:
 
 ```yaml
 routes_user_access:
-    -   path: "/user/"
-        autoindex: true
-        upload: true
-        show_hidden: true
-        user: "a_user"
+  - path: "/user/"
+    autoindex: true
+    upload: true
+    show_hidden: true
+    user: "a_user"
 ```
 
 
@@ -221,11 +221,11 @@ Type: object
 Example:
 ```yaml
 redis:
-    host: "localhost"
-    port: 6379
-    password: "password"
-    username: "username"
-    database: 0
+  host: "localhost"
+  port: 6379
+  password: "password"
+  username: "username"
+  database: 0
 ```
 
 
@@ -253,7 +253,7 @@ Type: array of string
 Example:
 ```yaml
 proxies:
- - 127.0.0.1
+   - 127.0.0.1
 ```
 
 
@@ -262,9 +262,6 @@ The path for FileHive static files.
 Do not name a directory the same as this path, for example if you have a 'test' subdirectory directly after `dir`, just don't name the `static_path` 'test'.
 This serves files under `./src/public`.
 It is in no way related to the directory that filehive will serve (`dir`).
-
-⚠️**Warning:** If the default value is changed, you must also update it in the error templates located at `./src/public/errors/`.
-
 
 Default is `"/filehive-internal/static"`.
 
@@ -302,8 +299,6 @@ login_path: "/login"
 ### `login_form_path`
 
 The path for the upload route. Same instruction as in `static_path`.
-
-⚠️**Warning:** If the default value is changed, you must also update it in the error template located at `./src/public/errors/nginx-401-error-template.html`.
 
 Default is `"/filehive-internal/forms/login"`.
 
@@ -560,33 +555,53 @@ map $status $status_message {
 }
 
 server {
+	# Those variables are needed for the configuration, edit them to fit your config if edited.
+	# please note that you will need to replace your value of static_path (if edited) in the location block because nginx does not support variable in location block.
+	# DO NOT ADD A TRAILING SLASH.
+
+	set $static_path "/filehive-internal/static";
+	set $login_path "/filehive-internal/login";
+	set $filehive_ip "127.0.0.1";
+	set $filehive_port 80;
+	# 0 disable the check, pass it in MegaBytes, different from filehive that is is Bytes
+	set $filehive_max_upload_file_size 0;
+
+	# The directory where filehive files are located (no trailing slash)
+	set $filehive_installation_dir "/path/to/filehive";
+
+	# The path of the dir in your filehive config
+	set $filehive_dir "/path/to/dir/";
+
 
 	listen 443 ssl ;
 	listen [::]:443 ;
 	server_name example.com;
-	ssl_certificate /path/to/certficate.file;
-	ssl_certificate_key /path/to/certificate_key.file;
+
+	# Path to your ssl_certificates
+	ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem;
+	ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
+
 	access_log /path/to/access.log;
-	error_log /path/to/error.log;
-	root /path/to/dir;
-	client_max_body_size SHOUD BE HIGHER OR EQUAL TO FILEHIVE ONE;
-	
-    # Every incomming requests
+	error_log path/to/error.log;
+
+	root $filehive_dir;
+	client_max_body_size $filehive_max_upload_file_sizeM;
+
+	# Location block for the protected directory
 	location / {
+
 
 		if (-f $request_filename) {
 
 			rewrite ^ /__internal$uri last;
 		}
 
-		proxy_pass http://FILEHIVE_ADRESS_IF_NOT_LOCAL:FILEHIVE_PORT;
-        proxy_set_header Host $http_host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
+		proxy_pass http://$filehive_ip:$filehive_port;
 	}
-    # Perform verification for files permissions
+
 	location /__internal {
+
+
 		rewrite ^/__internal(?<realurl>/.*)$ $realurl break;
 		auth_request /auth;
 		auth_request_set $auth_status $upstream_status;
@@ -602,21 +617,21 @@ server {
 		ssi on;
 		internal;
 		auth_basic off;
-		root /path/to/filehive/src/public/errors/;
+		root $filehive_installation_dir/src/public/errors;
 
 	}
+
 	location /nginx-error-template.html {
 
 		ssi on;
 		internal;
 		auth_basic off;
-		root /path/to/filehive/src/public/errors/;
+		root $filehive_installation_dir/src/public/errors;
 
 	}
-	# filehive static files
-	location /HERE_YOUR_FILEHIVE_STATIC_PATH {
+	location /filehive-internal/static {
 
-		alias /path/to/filehive/src/public/;
+		alias $filehive_installation_dir/src/public;
 	}
 
 	# Location block for the auth endpoint
@@ -624,7 +639,7 @@ server {
 
 		# Define the authentication server
 		internal;
-		proxy_pass http://FILEHIVE_ADRESS_IF_NOT_LOCAL:FILEHIVE_PORT$request_uri;
+		proxy_pass http://$filehive_ip:$filehive_port$request_uri;
 		proxy_set_header X-Original-URI $request_uri;
 		proxy_set_header Host $http_host;
 		proxy_set_header X-Real-IP $remote_addr;

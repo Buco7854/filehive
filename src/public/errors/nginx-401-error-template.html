@@ -3,7 +3,7 @@
 <html style="height: 100%;">
 <head>
     <!-- if you edit the variable static_path you will need to replace the value here by the one you entered!-->
-    <link rel="stylesheet" href="/filehive-internal/static/css/style.css">
+    <link rel="stylesheet" href="<!--# echo var="static_path" default="you-forgot-to-pass-static-to-nginx-conf" -->/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&amp;display=swap" rel="stylesheet">
@@ -21,11 +21,11 @@
 <div class="flex flex-col items-center">
     <div class="error-title">Oops!</div>
     <div class="second-error-title">
-        <!--# echo var="status" default="" --> - <!--# echo var="status_title" default="Something goes wrong" -->
+        <!--# echo var="status" default="Something goes wrong" --> - <!--# echo var="status_title" default="Something goes wrong" -->
     </div>
     <p class="error-message"><!--# echo var="status_message" default="For more information check the status code on the web" --></p>
     <!-- if you edit the variable login_path you will need to replace the value here by the one you entered!-->
-    <button class="back-home-button filter-hover" onclick="redirectToTarget('/filehive-internal/login',true);" autofocus>LOGIN</button>
+    <button class="back-home-button filter-hover" onclick="redirectToTarget('<!--# echo var="login_path" default="you-forgot-to-pass-login-path" -->',true);" autofocus>LOGIN</button>
 </div>
 </body>
 <script>
