@@ -5,8 +5,8 @@ const {loginLimiter} = require("../middlewares/auth.middleware");
 const params = require("../middlewares/params.middleware")
 
 module.exports = function(app){
-    router.get('/login', authController.login);
-    router.get("/logout", authController.logout)
-    router.post('/forms/login', params({"isJson": true}),loginLimiter(app), authController.loginForm)
+    router.get(app.locals.config["login_path"], authController.login);
+    router.get(app.locals.config["logout_path"], authController.logout)
+    router.post(app.locals.config["login_form_path"], params({"isJson": true}),loginLimiter(app), authController.loginForm)
     return router
 };

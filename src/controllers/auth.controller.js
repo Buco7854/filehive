@@ -3,7 +3,7 @@ const {HttpError} = require("../utils/errors");
 
 async function login(req, res, next) {
     try {
-        res.render('auth/login', { title: 'Login', formUrl : "/forms/login"})
+        res.render('auth/login', { title: 'Login'})
     } catch (err) {
         next(err);
     }

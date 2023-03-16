@@ -143,19 +143,31 @@ const schema = {
             },
             "static_path": {
                 "type": "string",
-                "default": "/filehive-static"
+                "default": "/filehive-internal/static"
+            },
+            "login_path": {
+                "type": "string",
+                "default": "/filehive-internal/login"
+            },
+            "login_form_path": {
+                "type": "string",
+                "default": "/filehive-internal/forms/login"
+            },
+            "logout_path": {
+                "type": "string",
+                "default": "/filehive-internal/logout"
             },
             "upload_path": {
                 "type": "string",
-                "default": "/filehive-upload"
+                "default": "/filehive-internal/upload"
             },
             "delete_path": {
                 "type": "string",
-                "default": "/filehive-delete"
+                "default": "/filehive-internal/delete"
             },
             "create_folder_path": {
                 "type": "string",
-                "default": "/filehive-create-folder"
+                "default": "/filehive-internal/create-folder"
             },
             "folder_creation_mode": {
                 "type": "number",

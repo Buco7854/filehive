@@ -110,6 +110,15 @@ upload:
 # e.g. if you have a 'test' subdirectory directly after (dir) just don't name it 'test'
 # static_path:
 
+# The path for the login route, same instruction as in static_path
+# login_path :
+
+# The path for the login route, same instruction as in static_path
+# login_form_path :
+
+# The path for the logout route, same instruction as in static_path
+# logout_path :
+
 # The path for the upload route, same instruction as in static_path
 # upload_path:
 

@@ -2,6 +2,7 @@ const fs = require('fs');
 const yaml = require('js-yaml');
 const {validateConfiguration} = require("./validation");
 const path = require('path')
+const {sanitizePath} = require("./helpers");
 
 module.exports = class ConfigManager{
     constructor(filePath, app) {
@@ -32,11 +33,18 @@ module.exports = class ConfigManager{
             }
             this.app.locals.config = validateConfiguration(this.config);
             this.app.locals.config['dir'] = path.normalize(this.app.locals.config['dir'])
-            this.app.locals.config['static_path'] = path.normalize(this.app.locals.config['static_path'])
-            this.app.locals.config['delete_path'] = path.normalize(this.app.locals.config['delete_path'])
-            this.app.locals.config['create_folder_path'] = path.normalize(this.app.locals.config['create_folder_path'])
-            this.app.locals.config['upload_path'] = path.normalize(this.app.locals.config['upload_path'])
-
+            const paths = [
+                "static_path",
+                "delete_path",
+                "create_folder_path",
+                "upload_path",
+                "logout_path",
+                "login_path",
+                "login_form_path"
+            ]
+            for (let key of paths){
+                this.app.locals.config[key] = sanitizePath(this.app.locals.config[key])
+            }
         } catch (e){
             if(!update){
                 throw e

@@ -47,6 +47,7 @@ function entityMiddleware(req, res, next) {
                             }
                         }
                         catch(err){
+                            // Some weird hidden folders on windows
                             if(err.code === "ENOENT"){
                                 continue
                             }

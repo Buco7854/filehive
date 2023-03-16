@@ -1,3 +1,4 @@
+
 # FileHive
 
 [![Linux](https://svgshare.com/i/Zhy.svg)](https://svgshare.com/i/Zhy.svg) [![Windows](https://svgshare.com/i/ZhY.svg)](https://svgshare.com/i/ZhY.svg) [![GitHub license](https://img.shields.io/github/license/Buco7854/filehive.svg)](/LICENSE)
@@ -125,7 +126,7 @@ Default is `false`.
 
 Type: boolean
 
-Example: 
+Example:
 ```yaml
 show_hidden: true
 ```
@@ -203,7 +204,7 @@ Default is `"filehive-store"`.
 
 Type: string
 
-Example: 
+Example:
 ```yaml
 store-prefix: "my-prefix"
 ```
@@ -235,7 +236,7 @@ Default is `"localhost"`.
 
 Type: string
 
-Example: 
+Example:
 ```yaml
 listen-address: "0.0.0.0"
 ```
@@ -244,7 +245,7 @@ listen-address: "0.0.0.0"
 ### `proxies`
 
 If your app is behind one or multiple proxies such as nginx, set their IP here (prepended by a hyphen).
-It is important to not that if at least one proxy is specified, FileHive will not serve files anymore and will instead return json so that the proxies auth requests can be done as fast as possible. 
+It is important to not that if at least one proxy is specified, FileHive will not serve files anymore and will instead return json so that the proxies auth requests can be done as fast as possible.
 Default is an empty array.
 
 Type: array of string
@@ -261,31 +262,75 @@ The path for FileHive static files.
 Do not name a directory the same as this path, for example if you have a 'test' subdirectory directly after `dir`, just don't name the `static_path` 'test'.
 This serves files under `./src/public`.
 It is in no way related to the directory that filehive will serve (`dir`).
-Default is `"/filehive-static"`.
+
+⚠️**Warning:** If the default value is changed, you must also update it in the error templates located at `./src/public/errors/`.
+
+
+Default is `"/filehive-internal/static"`.
 
 Type: string
 
-Example: 
+Example:
 ```yaml
-static_path: "/this-is-filhive-statics"
+static_path: "/static"
 ```
 
 ### `upload_path`
 
 The path for the upload route. Same instruction as in `static_path`.
-Default is `"/filehive-upload"`.
+Default is `"/filehive-internal/upload"`.
 
 Type: string
 
-Example: 
+Example:
 ```yaml
-upload_path: "/this-is-upload"
+upload_path: "/upload"
 ```
+
+### `login_path`
+
+The path for the upload route. Same instruction as in `static_path`.
+Default is `"/filehive-internal/login"`.
+
+Type: string
+
+Example:
+```yaml
+login_path: "/login"
+```
+
+### `login_form_path`
+
+The path for the upload route. Same instruction as in `static_path`.
+
+⚠️**Warning:** If the default value is changed, you must also update it in the error template located at `./src/public/errors/nginx-401-error-template.html`.
+
+Default is `"/filehive-internal/forms/login"`.
+
+Type: string
+
+Example:
+```yaml
+login_form_path: "/login-form"
+```
+
+### `logout_path`
+
+The path for the upload route. Same instruction as in `static_path`.
+Default is `"/filehive-internal/logout"`.
+
+Type: string
+
+Example:
+```yaml
+logout_path: "/this-is-logout"
+```
+
 
 ### `delete_path`
 
 The path for the upload route. Same instruction as in `static_path`.
-Default is `"/filehive-delete"`.
+Default is `"/filehive-internal/delete"`.
 
 Type: string
 
@@ -297,7 +342,7 @@ delete_path: "/this-is-delete"
 ### `create_folder_path`
 
 The path for the upload route. Same instruction as in `static_path`.
-Default is `"/filehive-create-folder"`.
+Default is `"/filehive-internal/create-folder"`.
 
 Type: string
 
@@ -363,7 +408,7 @@ Default is `undefined`.
 
 Type: string
 
-Example: 
+Example:
 ```yaml
 certificate : "/etc/letsencrypt/live/example.com/fullchain.pem"
 ```
@@ -382,12 +427,12 @@ file_upload_size_limit: 32212254720
 
 ## Remarks
 - The app's configuration is updated in real-time, allowing changes to permissions and other settings without requiring a restart.
-However, it's important to keep in mind that certain configuration keys, such as the `port` or FileHive routes, may require an app restart in order for changes to take effect, as they are not accessed on every instance.
+  However, it's important to keep in mind that certain configuration keys, such as the `port` or FileHive routes, may require an app restart in order for changes to take effect, as they are not accessed on every instance.
 
 - A user can only delete a file when he has the permission to view it (`autoindex`, also `show_hidden` if the file is hidden), and when he can also upload to the folder the file is in (`upload`).
 
 - The user running FileHive need read and write permissions under the directory it is located and under the `dir` provided.
-    I recommend running it as systemd service (see below), with `www-data` user inside a child directory of `/var/www/` and setting the `dir ` inside a child of `/var/www/` too (the user should have the permissions, if not just give them to him).
+  I recommend running it as systemd service (see below), with `www-data` user inside a child directory of `/var/www/` and setting the `dir ` inside a child of `/var/www/` too (the user should have the permissions, if not just give them to him).
 
 ## Run as a service
 
@@ -409,17 +454,17 @@ To run the file as a systemd service, please follow these steps:
     WantedBy=multi-user.target
     ```
 2. Move the `.service` file to the `/etc/systemd/system/` directory by running the following command:
-    ```sudo mv filehive.service /etc/systemd/system/```
+   ```sudo mv filehive.service /etc/systemd/system/```
 3. Reload the systemd daemon to pick up the new service:
-    ```sudo systemctl daemon-reload```
+   ```sudo systemctl daemon-reload```
 4. Enable the service to start on boot:
-    ```sudo systemctl enable filehive.service```
+   ```sudo systemctl enable filehive.service```
 5. Start the service:
-    ```sudo systemctl start filehive.service```
+   ```sudo systemctl start filehive.service```
 
 You can check the status of the service by running:
 ```sudo systemctl status filehive.service```
-   And you can stop the service by running:
+And you can stop the service by running:
 ```sudo systemctl stop filehive.service```
 
 ## Use with Nginx

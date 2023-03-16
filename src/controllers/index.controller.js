@@ -39,7 +39,6 @@ async function index(req, res, next) {
             );
             res.render('index/index', {
                 title: res.locals.path,
-                formUrl : "/forms/login",
                 directory: res.locals.entity,
                 toHumanSize : toHumanSize,
             })

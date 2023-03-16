@@ -4,6 +4,7 @@ html
         let uploadPath = "#{config['upload_path']}";
         let deletePath = "#{config['delete_path']}";
         let createFolderPath = "#{config['create_folder_path']}";
+        let formUrl = "#{config['login_form_path']}";
         let path = "#{path}"
     include ../includes/head.pug
     body.bg-background-color.text-color
@@ -12,7 +13,7 @@ html
                 div#progress.progress.bg-accent-color
         div.app-content-limiter.mx-auto.px-3.justify-center.flex.flex-col(style="margin-top: 3rem;")
             div(style="margin-bottom:2rem")
-                a.text-color.text-lg.rounded-lg.px-3.py-1.bg-accent-color.poppins(href=`/${userSession ? 'logout' : 'login'}`)= userSession ? 'Logout' : 'Login'
+                a.text-color.text-lg.rounded-lg.px-3.py-1.bg-accent-color.poppins(href=`${userSession ? config["logout_path"] : config["login_path"]}`)= userSession ? 'Logout' : 'Login'
             #modal-overlay-1.modal-overlay(style='display: none;')
                 div.modal.bg-background-color.rounded-lg(style="text-align:center;")
                     div#modal-title.text-2xl.w-full.poppins
