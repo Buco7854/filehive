@@ -93,12 +93,12 @@ upload:
 # The address on which your app will listen to requests.
 # If you want your app to be accessible from outside your computer, use "0.0.0.0".
 # Type: string
-# Optional. Default to "127.0.0.1".
+# Optional. Default is "127.0.0.1".
 # listen-address:
 
 # If your app is behind one or multiple proxies such as nginx, set their IP here (prepended by a hyphen).
 # Type array of string
-# Optional. Default to an empty array.
+# Optional. Default is an empty array.
 # proxies:
 #  - 127.0.0.1
 

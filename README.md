@@ -232,7 +232,7 @@ redis:
 ### `listen-address`
 
 The address on which your app will listen to requests.
-Default is `"localhost"`.
+Default is `"127.0.0.1"`.
 
 Type: string
 
