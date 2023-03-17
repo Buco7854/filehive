@@ -4,13 +4,13 @@ class BaseStore{
         this.sessionIdleMaxTime = 30 * 60 * 1000;
     }
     async get(key){
-        throw Error("Non Implemented");
+        throw Error("Non Implemented!");
     }
     async set(key, value){
-        throw Error("Non Implemented");
+        throw Error("Non Implemented!");
     }
     async delete(key, value){
-        throw Error("Non Implemented");
+        throw Error("Non Implemented!");
     }
 }
 
