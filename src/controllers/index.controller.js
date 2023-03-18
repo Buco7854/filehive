@@ -4,8 +4,6 @@ const path = require('path');
 
 async function index(req, res, next) {
     try {
-        console.log(req.ips);
-        // If there is a slash at the beginning it means the user provided 2 /, so we redirect to the sanitized path
         const permissions = getPermissionsFor(
             req.app.locals.config,
             res.locals.path,
@@ -27,7 +25,7 @@ async function index(req, res, next) {
         }
 
         if (res.locals.entity.isFile()){
-            // req.ips will be empty if request didn't go through trusted proxy.
+            // req.ips will be empty if request didn't go through trusted proxy (the proxy must send the client ip).
             if (req.ips.length > 0){
                 res.status(200).json({"detail":"ok"});
             }
