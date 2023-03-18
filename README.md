@@ -245,7 +245,7 @@ listen-address: "0.0.0.0"
 ### `proxies`
 
 If your app is behind one or multiple proxies such as nginx, set their IP here (prepended by a hyphen).
-It is important to not that if at least one proxy is specified, FileHive will not serve files anymore and will instead return json so that the proxies auth requests can be done as fast as possible.
+It is important to not that if the request came from a trusted proxy, FileHive will not serve files and will instead return json so that the proxy auth request can be done as fast as possible.
 Default is an empty array.
 
 Type: array of string
